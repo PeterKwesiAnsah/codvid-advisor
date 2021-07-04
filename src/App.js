@@ -65,9 +65,7 @@ const App = () => {
 			},
 		],
 	};
-	console.log(questions.general.length);
-	console.log(stage);
-	console.log(value);
+
 	return (
 		<div className="App">
 			<h3 style={{ textTransform: 'capitalize' }}>
@@ -123,7 +121,5 @@ const App = () => {
 		</div>
 	);
 };
-
-// how do we hold a question
 
 export default App;
