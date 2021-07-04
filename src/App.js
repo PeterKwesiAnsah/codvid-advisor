@@ -1,10 +1,21 @@
 import './App.css';
 import { useState } from 'react';
-//https://material-ui.com/components/radio-buttons/#radiogroup
 
+import {
+	Radio,
+	RadioGroup,
+	FormControlLabel,
+	FormControl,
+	FormLabel,
+	Button,
+} from '@material-ui/core';
 const App = () => {
 	const [stage, setStage] = useState(0);
-
+	const [value, setValue] = useState('');
+	const [userData, setData] = useState([]);
+	const handleChange = (event) => {
+		setValue(event.target.value);
+	};
 	const options = [
 		{ value: 0, label: 'No' },
 		{ value: 1, label: 'Yes' },
@@ -30,7 +41,7 @@ const App = () => {
 			},
 			{
 				question:
-					'Have you been in contact with a confirmed case of CODVID 19 in the last 14 days',
+					'Have you been in contact with a confirmed case of COVID-19 in the last 14 days',
 				options,
 			},
 			// [
@@ -56,19 +67,59 @@ const App = () => {
 	};
 	console.log(questions.general.length);
 	console.log(stage);
+	console.log(value);
 	return (
 		<div className="App">
+			<h3 style={{ textTransform: 'capitalize' }}>
+				{Object.keys(questions)[0]}
+			</h3>
+
 			<p>{questions.general[stage].question}</p>
-			<button
-				onClick={() =>
-					stage < questions.general.length - 1
-						? setStage(stage + 1)
-						: console.log('vibes')
-				}
-			>
-				{' '}
-				next
-			</button>
+			<FormControl component="fieldset">
+				<FormLabel
+					component="legend"
+					style={{ flexDirection: 'row', display: 'flex' }}
+				>
+					{options.map((item, index) => (
+						<RadioGroup
+							aria-label="gender"
+							name="general"
+							value={value}
+							onChange={handleChange}
+						>
+							<FormControlLabel
+								value={item.label}
+								control={<Radio color="primary" />}
+								label={item.label}
+							/>
+						</RadioGroup>
+					))}
+				</FormLabel>
+			</FormControl>
+			<div>
+				<Button
+					variant="contained"
+					color="primary"
+					style={{ marginRight: '50%' }}
+					onClick={() =>
+						stage > 0 ? setStage(stage - 1) : console.log('vibes')
+					}
+				>
+					back
+				</Button>
+
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={() =>
+						stage < questions.general.length - 1
+							? setStage(stage + 1)
+							: console.log('vibes')
+					}
+				>
+					next
+				</Button>
+			</div>
 		</div>
 	);
 };
