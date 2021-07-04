@@ -1,13 +1,16 @@
 import './App.css';
-
+import { useState } from 'react';
 //https://material-ui.com/components/radio-buttons/#radiogroup
 
 const App = () => {
+	const [stage, setStage] = useState(0);
+
 	const options = [
 		{ value: 0, label: 'No' },
 		{ value: 1, label: 'Yes' },
 	];
 	//dollar man
+
 	const questions = {
 		general: [
 			{
@@ -30,10 +33,10 @@ const App = () => {
 					'Have you been in contact with a confirmed case of CODVID 19 in the last 14 days',
 				options,
 			},
-			[
-				{ value: 0, label: 'No' },
-				{ value: 1, label: 'Yes' },
-			],
+			// [
+			// 	{ value: 0, label: 'No' },
+			// 	{ value: 1, label: 'Yes' },
+			// ],
 		],
 		symptoms: [
 			{ question: 'Fever', options },
@@ -51,7 +54,25 @@ const App = () => {
 			},
 		],
 	};
-	return <div className="App"> <h1>lk';l'sal;</h1></div>;
+	console.log(questions.general.length);
+	console.log(stage);
+	return (
+		<div className="App">
+			<p>{questions.general[stage].question}</p>
+			<button
+				onClick={() =>
+					stage < questions.general.length - 1
+						? setStage(stage + 1)
+						: console.log('vibes')
+				}
+			>
+				{' '}
+				next
+			</button>
+		</div>
+	);
 };
+
+// how do we hold a question
 
 export default App;
