@@ -73,12 +73,12 @@ const App = () => {
 		state[qSet][qIndex] = event.target.value;
 		setAnswers(state);
 	};
-	console.log(answers);
 	const nextQuestion = () => {
-		setqIndex(qIndex + 1);
-		if (qSet === options[qSet].length - 1) {
+		if (qIndex === Number(questions[qSet].length - 1)) {
 			setqSet('symptoms');
 			setqIndex(0);
+		} else {
+			setqIndex(qIndex + 1);
 		}
 	};
 	const previousQuestion = () => {
@@ -96,16 +96,16 @@ const App = () => {
 				<RadioGroup
 					aria-label={qSet}
 					name={qSet}
-					value={'Yes'}
+					value={answers[qSet][qIndex] ?? ''}
 					onChange={handleChange}
 				>
 					<FormControlLabel
-						value={question.options[1].value}
+						value={question.options[1].label}
 						control={<Radio />}
 						label={question.options[1].label}
 					/>
 					<FormControlLabel
-						value={question.options[0].value}
+						value={question.options[0].label}
 						control={<Radio />}
 						label={question.options[0].label}
 					/>
