@@ -88,8 +88,8 @@ const App = () => {
 	return (
 		<div className="App">
 			<div className="appNav">
-				<h1>General</h1>
-				<h1>symptoms</h1>
+				<p className="navItem">General</p>
+				<p className="navItem">Symptoms</p>
 			</div>
 			<FormControl component="fieldset">
 				<FormLabel component="legend">{question.question}</FormLabel>
@@ -127,7 +127,7 @@ const App = () => {
 					color="primary"
 					onClick={nextQuestion}
 					disabled={!answers[qSet][qIndex]}
-				>
+					>
 					next
 				</Button>
 			</div>
