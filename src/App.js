@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import {
 	Radio,
@@ -9,10 +9,13 @@ import {
 	FormLabel,
 	Button,
 } from '@material-ui/core';
+import { progressCalculater } from './ProgressCalculater';
+import { ProgressIndicator } from './ProgressIndicator';
 const options = [
 	{ value: 0, label: 'No' },
 	{ value: 1, label: 'Yes' },
 ];
+
 //dollar man
 
 const questions = {
@@ -63,6 +66,10 @@ const App = () => {
 	const [qIndex, setqIndex] = useState(0);
 	const [qSet, setqSet] = useState('general');
 	const question = questions[qSet][qIndex];
+	const value = useMemo(
+		() => progressCalculater(qIndex, questions[qSet].length),
+		[qIndex, qSet]
+	);
 
 	const [answers, setAnswers] = useState({
 		general: {},
@@ -88,8 +95,15 @@ const App = () => {
 	return (
 		<div className="App">
 			<div className="appNav">
-				<p className="navItem">General</p>
-				<p className="navItem">Symptoms</p>
+				<p className={`navItem ${qSet === 'general' ? 'activeNav' : ''}`}>
+					General
+				</p>
+				<p className={`navItem ${qSet === 'symptoms' ? 'activeNav' : ''}`}>
+					Symptoms
+				</p>
+			</div>
+			<div className="linearPrgogress">
+				<ProgressIndicator value={value}></ProgressIndicator>
 			</div>
 			<FormControl component="fieldset">
 				<FormLabel component="legend">{question.question}</FormLabel>
@@ -101,12 +115,12 @@ const App = () => {
 				>
 					<FormControlLabel
 						value={question.options[1].label}
-						control={<Radio />}
+						control={<Radio color="primary" />}
 						label={question.options[1].label}
 					/>
 					<FormControlLabel
 						value={question.options[0].label}
-						control={<Radio />}
+						control={<Radio color="primary" />}
 						label={question.options[0].label}
 					/>
 				</RadioGroup>
@@ -127,7 +141,7 @@ const App = () => {
 					color="primary"
 					onClick={nextQuestion}
 					disabled={!answers[qSet][qIndex]}
-					>
+				>
 					next
 				</Button>
 			</div>

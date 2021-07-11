@@ -12,10 +12,23 @@
 	justify-content: center;
 }
 
-.activeNav {
-}
 .navItem {
 	margin-right: 20px;
+	font-size: 14px;
+	cursor: pointer;
+}
+.activeNav {
+	color: #3f51b5;
+	padding: 8px;
+	border-bottom: 4px solid #3f51b5;
+	font-size: 18px;
+	transition: all 0.5s ease-in;
+}
+
+.linearPrgogress {
+	width: 100%;
+	display: grid;
+	place-items: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {
