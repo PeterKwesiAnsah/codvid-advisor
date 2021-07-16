@@ -11,6 +11,11 @@ import {
 } from '@material-ui/core';
 import { progressCalculater } from './ProgressCalculater';
 import { ProgressIndicator } from './ProgressIndicator';
+import { Switch, Route } from 'react-router-dom';
+import Centers from './Map';
+import { diagnosisCal } from './diagnosisCal.js';
+import Diagnosis from './Diagnosis';
+import { Link } from 'react-router-dom';
 const options = [
 	{ value: 0, label: 'No' },
 	{ value: 1, label: 'Yes' },
@@ -63,6 +68,8 @@ const questions = {
 };
 
 const App = () => {
+	const TotalQuestions =
+		questions['general'].length + questions['symptoms'].length;
 	const [qIndex, setqIndex] = useState(0);
 	const [qSet, setqSet] = useState('general');
 	const question = questions[qSet][qIndex];
@@ -92,59 +99,90 @@ const App = () => {
 		setqIndex(qIndex - 1);
 	};
 
+	console.log(diagnosisCal(answers, TotalQuestions));
+
+	const Main = () => {
+		return (
+			<>
+				<div className="appNav">
+					<p className={`navItem ${qSet === 'general' ? 'activeNav' : ''}`}>
+						General
+					</p>
+					<p className={`navItem ${qSet === 'symptoms' ? 'activeNav' : ''}`}>
+						Symptoms
+					</p>
+				</div>
+				<div className="linearPrgogress">
+					<ProgressIndicator value={value}></ProgressIndicator>
+				</div>
+				<FormControl component="fieldset">
+					<FormLabel component="legend">{question.question}</FormLabel>
+					<RadioGroup
+						aria-label={qSet}
+						name={qSet}
+						value={answers[qSet][qIndex] ?? ''}
+						onChange={handleChange}
+					>
+						<FormControlLabel
+							value={question.options[1].label}
+							control={<Radio color="primary" />}
+							label={question.options[1].label}
+						/>
+						<FormControlLabel
+							value={question.options[0].label}
+							control={<Radio color="primary" />}
+							label={question.options[0].label}
+						/>
+					</RadioGroup>
+				</FormControl>
+				<div>
+					<Button
+						variant="contained"
+						color="primary"
+						style={{ marginRight: '50%' }}
+						onClick={previousQuestion}
+						disabled={qIndex === 0}
+					>
+						back
+					</Button>
+					{value === 100 && qSet === 'symptoms' ? (
+						<Link to="/diagnosis">
+							<Button
+								variant="contained"
+								color="primary"
+								disabled={!answers[qSet][qIndex]}
+							>
+								diagnose
+							</Button>
+						</Link>
+					) : (
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={nextQuestion}
+							disabled={!answers[qSet][qIndex]}
+						>
+							next
+						</Button>
+					)}
+				</div>
+			</>
+		);
+	};
+
 	return (
 		<div className="App">
-			<div className="appNav">
-				<p className={`navItem ${qSet === 'general' ? 'activeNav' : ''}`}>
-					General
-				</p>
-				<p className={`navItem ${qSet === 'symptoms' ? 'activeNav' : ''}`}>
-					Symptoms
-				</p>
-			</div>
-			<div className="linearPrgogress">
-				<ProgressIndicator value={value}></ProgressIndicator>
-			</div>
-			<FormControl component="fieldset">
-				<FormLabel component="legend">{question.question}</FormLabel>
-				<RadioGroup
-					aria-label={qSet}
-					name={qSet}
-					value={answers[qSet][qIndex] ?? ''}
-					onChange={handleChange}
-				>
-					<FormControlLabel
-						value={question.options[1].label}
-						control={<Radio color="primary" />}
-						label={question.options[1].label}
-					/>
-					<FormControlLabel
-						value={question.options[0].label}
-						control={<Radio color="primary" />}
-						label={question.options[0].label}
-					/>
-				</RadioGroup>
-			</FormControl>
-			<div>
-				<Button
-					variant="contained"
-					color="primary"
-					style={{ marginRight: '50%' }}
-					onClick={previousQuestion}
-					disabled={qIndex === 0}
-				>
-					back
-				</Button>
-
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={nextQuestion}
-					disabled={!answers[qSet][qIndex]}
-				>
-					next
-				</Button>
-			</div>
+			<Switch>
+				<Route path="/" exact>
+					<Main />
+				</Route>
+				<Route path="/centers" exact>
+					<Centers />
+				</Route>
+				<Route path="/diagnosis" exact>
+					<Diagnosis value={diagnosisCal(answers, TotalQuestions)} />
+				</Route>
+			</Switch>
 		</div>
 	);
 };

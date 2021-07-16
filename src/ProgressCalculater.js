@@ -1,5 +1,6 @@
 export const progressCalculater = (currentIndex, totalLength) => {
 	//totalLength = totalLength - 1;
 	// console.log(totalLength);
-	return (currentIndex+1 / totalLength) * 100;
+
+	return Number(Number(currentIndex + 1) / Number(totalLength)) * 100;
 };
