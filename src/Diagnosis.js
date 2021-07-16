@@ -1,6 +1,5 @@
 import React from 'react';
 import { Typography, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 const colors = {
 	high: '#C70039',
 	low: '#87FF33',
@@ -23,7 +22,7 @@ const Diagnosis = ({ value = 0 }) => {
 						fontSize: '30px',
 					}}
 				>
-					{state + '-' + 'risk'}
+					{state + '- risk'}
 				</Typography>{' '}
 				of been infected.
 			</Typography>
@@ -41,7 +40,11 @@ const Diagnosis = ({ value = 0 }) => {
 						Go Home
 					</Button>
 				</a>
-				<a href="https://en.wikipedia.org/wiki/COVID-19" target="_blank">
+				<a
+					href="https://en.wikipedia.org/wiki/COVID-19"
+					target="_blank"
+					rel="noreferrer"
+				>
 					<Button variant="contained" color="secondary">
 						Educational Resources
 					</Button>
@@ -54,6 +57,7 @@ const Diagnosis = ({ value = 0 }) => {
 
 				<a
 					href="https://www.ghanahealthservice.org/covid19/archive.php"
+					rel="noreferrer"
 					target="_blank"
 				>
 					<Button variant="contained" color="secondary" to="/">

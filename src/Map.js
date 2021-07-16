@@ -20,7 +20,7 @@ const Map = () => {
 
 	const MarkerComponent = ({ text }) => (
 		<>
-			<img style={{ height: '30px' }} src={marker}></img>
+			<img style={{ height: '30px' }} src={marker} alt="marker"></img>
 		</>
 	);
 
